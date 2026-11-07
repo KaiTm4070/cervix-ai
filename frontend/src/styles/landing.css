@@ -64,6 +64,8 @@
 /* Secciones */
 .sec { padding-block: calc(var(--space-10) * 2); }
 .sec--light { background: var(--color-app-bg); color: var(--color-text); }
+.sec--white { background: var(--color-surface); }
+.card--tint { background: var(--color-app-bg); border-color: transparent; }
 .sec--dark { background: var(--color-sidebar-bg); }
 .sec--faq { padding-top: var(--space-10); }
 #plataforma { padding-block: var(--space-10); }

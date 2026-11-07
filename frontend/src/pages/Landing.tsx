@@ -147,15 +147,15 @@ export default function Landing() {
           </ol>
         </section>
 
-        <section className="sec sec--light">
+        <section className="sec sec--light sec--white">
           <div className="wrap head head--col">
-            <p className="eyebrow">Menos fricción, más contexto</p>
+            <p className="eyebrow">MENOS FRICCIÓN, MAS CONTEXTO</p>
             <h2>Todo tu análisis, en un solo lugar.</h2>
             <p className="head__side">Herramientas que acompañan la lectura y la documentación, sin apartar al profesional del centro de la decisión.</p>
           </div>
           <div className="wrap grid grid--3">
             {TOOLS.map(([icon, title, text]) => (
-              <article key={title} className="card card--light">
+              <article key={title} className="card card--light card--tint">
                 <Icon n={icon} className="card__i" />
                 <h3>{title}</h3>
                 <p>{text}</p>
