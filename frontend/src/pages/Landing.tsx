@@ -1,4 +1,6 @@
-import type { ReactElement } from 'react'
+import { useState, type ReactElement, type MouseEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AuthModal from '../components/auth/AuthModal'
 import '../styles/landing.css'
 
 const PATHS: Record<string, ReactElement> = {
@@ -76,7 +78,17 @@ const Logo = () => (
   </a>
 )
 
+type AuthView = 'login' | 'register'
+
 export default function Landing() {
+  const navigate = useNavigate()
+  const [auth, setAuth] = useState<AuthView | null>(null)
+
+  const open = (view: AuthView) => (e: MouseEvent) => {
+    e.preventDefault()
+    setAuth(view)
+  }
+
   return (
     <div className="landing">
       <header className="nav">
@@ -88,8 +100,8 @@ export default function Landing() {
             <a href="#uso-responsable">Uso responsable</a>
           </nav>
           <div className="nav__cta">
-            <a className="btn btn--dark" href="/login">Iniciar sesión</a>
-            <a className="btn btn--primary" href="/registro">Registrarse</a>
+            <a className="btn btn--dark" href="/login" onClick={open('login')}>Iniciar sesión</a>
+            <a className="btn btn--primary" href="/registro" onClick={open('register')}>Registrarse</a>
           </div>
         </div>
       </header>
@@ -102,8 +114,8 @@ export default function Landing() {
               <h1>Tecnología que apoya la detección temprana de lesiones cervicales</h1>
               <p className="lead">Una perspectiva inteligente para tus imágenes de citología y colposcopia. Más contexto para tu evaluación; el criterio clínico sigue siendo tuyo.</p>
               <div className="hero__btns">
-                <a className="btn btn--primary btn--lg" href="/registro"><Icon n="arrow" />Registrarse</a>
-                <a className="btn btn--dark btn--lg" href="/login">Iniciar sesión</a>
+                <a className="btn btn--primary btn--lg" href="/registro" onClick={open('register')}><Icon n="arrow" />Registrarse</a>
+                <a className="btn btn--dark btn--lg" href="/login" onClick={open('login')}>Iniciar sesión</a>
               </div>
               <p className="note"><Icon n="shield" />Diseñado como apoyo a profesionales de salud. No sustituye el diagnóstico.</p>
             </div>
@@ -234,8 +246,8 @@ export default function Landing() {
             <h2>Acompaña tu criterio con inteligencia.</h2>
             <p>Explora un flujo de análisis diseñado para profesionales de salud.</p>
             <div className="hero__btns">
-              <a className="btn btn--white btn--lg" href="/registro">Registrarse</a>
-              <a className="btn btn--dark btn--lg" href="/login">Iniciar sesión</a>
+              <a className="btn btn--white btn--lg" href="/registro" onClick={open('register')}>Registrarse</a>
+              <a className="btn btn--dark btn--lg" href="/login" onClick={open('login')}>Iniciar sesión</a>
             </div>
           </div>
         </section>
@@ -259,6 +271,17 @@ export default function Landing() {
           <span>Entorno de demostración · No usar como único fundamento diagnóstico</span>
         </div>
       </footer>
+
+      {auth && (
+        <AuthModal
+          initialView={auth}
+          onClose={() => setAuth(null)}
+          onFinish={() =>{
+            setAuth(null)
+            navigate('/app')
+          }}
+        />
+      )}
     </div>
   )
 }
