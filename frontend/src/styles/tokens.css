@@ -1,0 +1,71 @@
+:root {
+    /* Colores · fondos */
+    --color-app-bg: #f8f9fe;
+    --color-surface: #ffffff;
+    --color-sidebar-bg: #0b0a1a;
+    --color-sidebar-surface: #1c1b36;
+    --color-sidebar-border: #302e4b;
+
+    /* Colores · marca */
+    --color-primary: #635bff;        /* ítem activo del menú, estado "Modo demostración" */
+    --color-accent: #6556ff;         /* etiquetas de paso, botón principal */
+    --color-primary-soft: #efedff;   /* fondo de la pastilla de estado */
+    --color-avatar-text: #a99cff;
+
+    /* Colores · texto */
+    --color-text: #22203d;
+    --color-text-muted: #777994;
+    --color-text-subtle: #75758c;
+    --color-text-on-dark: #ffffff;
+    --color-text-on-dark-muted: #b7b6cf;
+
+    /* Colores · bordes */
+    --color-border: #e4e6f1;         /* tarjetas */
+    --color-border-topbar: #e6e7f1;
+
+    /* Tipografía */
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --fw-regular: 400;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+    --fs-10: 10px;
+    --fs-11: 11px;
+    --fs-12: 12px;
+    --fs-13: 13px;
+    --fs-15: 15px;
+    --fs-20: 20px;
+    --fs-32: 32px;
+    --lh-body: 1.55;
+
+    /* Radios */
+    --radius-md: 12px;   /* opciones de menú, organización */
+    --radius-lg: 16px;   /* tarjeta "Ayuda clínica" */
+    --radius-xl: 18px;   /* tarjetas de contenido y botón */
+    --radius-pill: 100px;
+
+    /* Espaciados */
+    --space-1: 7px;
+    --space-2: 8px;
+    --space-3: 10px;
+    --space-4: 12px;
+    --space-5: 14px;
+    --space-6: 16px;
+    --space-7: 20px;
+    --space-8: 24px;
+    --space-9: 34px;
+    --space-10: 36px;
+
+    /* Layout */
+    --sidebar-width: 240px;
+    --topbar-height: 80px;
+    --content-padding: 36px;
+    --card-padding: 24px;
+    --nav-item-height: 46px;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--color-app-bg);
+    color: var(--color-text);
+}
