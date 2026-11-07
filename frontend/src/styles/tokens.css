@@ -61,6 +61,20 @@
     --content-padding: 36px;
     --card-padding: 24px;
     --nav-item-height: 46px;
+
+    /* Colores · estado (landing) */
+    --color-teal: #4fd8c4;
+    --color-warning: #f5a524;
+    --color-danger: #ef4d6a;
+    --color-success: #1f9d6b;
+
+    /* Tipografía (landing) */
+    --fs-40: 40px;
+    --fs-56: 56px;
+    --lh-heading: 1.1;
+
+    /* Layout (landing) */
+    --content-max-width: 1200px;
 }
 
 body {
