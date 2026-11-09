@@ -1,0 +1,32 @@
+{
+  "exactitud": 0.9703,
+  "sensibilidad": 0.9707,
+  "especificidad": 0.9707,
+  "f1": 0.9701,
+  "modo_sens_esp": "promedio macro",
+  "n_test": 1077,
+  "por_clase": {
+    "ANORMAL": {
+      "precision": 0.96,
+      "sensibilidad": 0.9756,
+      "especificidad": 0.9658,
+      "f1": 0.9677
+    },
+    "NORMAL": {
+      "precision": 0.9792,
+      "sensibilidad": 0.9658,
+      "especificidad": 0.9756,
+      "f1": 0.9725
+    }
+  },
+  "matriz_confusion": [
+    [
+      480,
+      12
+    ],
+    [
+      20,
+      565
+    ]
+  ]
+}
