@@ -12,8 +12,8 @@ import yaml
 from sklearn.metrics import f1_score
 from torch.utils.data import DataLoader
 
-from src.models.factory import create_model
-from src.preprocessing.transforms import MEAN, STD, eval_transform, train_transform
+from src.models.Factory import create_model
+from src.preprocessing.Transform import MEAN, STD, eval_transform, train_transform
 from src.training.dataset import SplitDataset
 
 

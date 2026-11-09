@@ -13,8 +13,8 @@ import yaml
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support
 from torch.utils.data import DataLoader
 
-from src.models.factory import load_package
-from src.preprocessing.transforms import eval_transform
+from src.models.Factory import load_package
+from src.preprocessing.Transform import eval_transform
 from src.training.dataset import SplitDataset
 
 
