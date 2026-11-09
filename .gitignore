@@ -1,4 +1,6 @@
 .venv/
+.vscode/*
+!.vscode/extensions.json
 __pycache__/
 node_modules/
 data/
