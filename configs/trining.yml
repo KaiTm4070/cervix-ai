@@ -1,0 +1,25 @@
+# Una carpeta por clase: data/processed/<clase>/*.png|jpg|bmp  (solo imagenes de una celula/recorte)
+dataset_dir: data/processed
+dataset_version: v1
+splits_file: data/splits/splits.json
+# Agrupa recortes de una misma imagen madre (ej. 001_01.bmp y 001_02.bmp -> grupo 001).
+# Si el nombre no coincide, cada imagen es su propio grupo.
+group_regex: "^(\\d+)_"
+split: {train: 0.70, val: 0.15, test: 0.15}
+seed: 42
+
+img_size: 224
+batch_size: 32
+epochs: 25
+freeze_epochs: 3        # primeras epocas: solo se entrena la capa final
+lr_head: 0.001
+lr_finetune: 0.0001
+patience: 5             # parada temprana segun F1 de validacion
+num_workers: 2
+
+model_name: efficientnet_b0   # alternativas: resnet50, vit_small_patch16_224
+run_name: efficientnet_b0_v1
+
+# Clases consideradas "normales" para calcular sensibilidad/especificidad binarias (normal vs anormal).
+# Ejemplo: ["superficial_intermedia", "parabasal"]. Si queda vacio, se usa promedio macro.
+normal_classes: []
