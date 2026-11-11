@@ -1,20 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Landing from "./pages/Landing"
-/* import AppLayaout from "./components/AppLayout" */
-
-
-function App(){
-
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* Parte pública: */}
-        <Route path="/" element={<Landing />} />
-
-      </Routes>
-    </BrowserRouter>
-  )
-}
-
-export default App
+import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom'
+import Landing from './pages/Landing'
+import ClinicalApp, { Help } from './pages/ClinicalApp'
+import AuthModal from './components/auth/AuthModal'
+const publicContent:Record<string,[string,string]>={privacidad:['Privacidad','Este prototipo guarda el perfil y los análisis de demostración en el navegador. No existe sincronización con un servidor. Utiliza únicamente imágenes autorizadas, desidentificadas y de demostración. La política definitiva debe ser validada por el equipo antes del uso con datos reales.'],terminos:['Términos de uso','CervixAI es un prototipo de apoyo al análisis de imágenes. Las salidas de esta versión son simuladas y no deben utilizarse para tomar decisiones clínicas. Los términos definitivos están pendientes de validación por el equipo.'],datos:['Política de datos','Los registros locales pueden eliminarse desde Configuración. El perfil se conserva hasta que borres los datos del sitio en el navegador. No incluyas nombres, documentos ni otros identificadores en imágenes u observaciones.'],contacto:['Contacto','El canal oficial de soporte aún no ha sido definido por el equipo del proyecto. Mientras tanto, consulta las guías y preguntas frecuentes del centro de ayuda.']}
+function PublicInfo({page}:{page?:string}){return <div className="clinic"><main className="clinic-main" style={{width:'100%',maxWidth:1100}}><Link to="/">← Volver a CervixAI</Link><div style={{height:28}}/>{page?<section className="clinic-panel"><h1>{publicContent[page][0]}</h1><p>{publicContent[page][1]}</p><Link to="/ayuda">Consultar ayuda →</Link></section>:<Help/>}</main></div>}
+function AuthPage({view}:{view:'login'|'register'}){const navigate=useNavigate();return <><Landing/><AuthModal initialView={view} onClose={()=>navigate('/')} onFinish={()=>navigate('/app')}/></>}
+function Demo(){const navigate=useNavigate();const [error,setError]=useState('');return <div className="clinic"><main className="clinic-main" style={{maxWidth:650,paddingTop:80}}><section className="clinic-panel"><h1>Explora CervixAI</h1><p>Recorre el espacio con un perfil de demostración. No se ejecuta IA ni se conecta a servicios clínicos.</p><button className="clinic-btn primary" onClick={()=>{try{sessionStorage.setItem('cervix.session',JSON.stringify({nombre:'Profesional',apellidos:'Demo',email:'demo@example.invalid',profesion:'Perfil de demostración',institucion:'Entorno local',objetivo:'investigacion'}));navigate('/app')}catch{setError('Habilita el almacenamiento del navegador para usar la demostración.')}}}>Entrar a la demostración</button><p role="alert">{error}</p><Link to="/">← Volver al inicio</Link></section></main></div>}
+function NotFound(){return <main style={{padding:40,fontFamily:'Inter, sans-serif'}}><h1>Página no encontrada</h1><p>Esta sección no está disponible.</p><Link to="/">Volver al inicio</Link></main>}
+export default function App(){return <BrowserRouter><Routes><Route path="/" element={<Landing/>}/><Route path="/login" element={<AuthPage view="login"/>}/><Route path="/registro" element={<AuthPage view="register"/>}/><Route path="/demo" element={<Demo/>}/><Route path="/app/*" element={<ClinicalApp/>}/><Route path="/ayuda" element={<PublicInfo/>}/>{Object.keys(publicContent).map(page=><Route key={page} path={`/${page}`} element={<PublicInfo page={page}/>}/>)}<Route path="*" element={<NotFound/>}/></Routes></BrowserRouter>}
