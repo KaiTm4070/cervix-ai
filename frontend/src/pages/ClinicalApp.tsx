@@ -1,5 +1,6 @@
 
 import { readPreferences, type Theme } from '../services/preferencesService'
+import Profile from './ProfilePage'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, NavLink, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Bell, ChartNoAxesCombined, Check, ClipboardCheck, Download, FileImage, FileText, History, House, Info, LogOut, Menu, Moon, Plus, ScanLine, Search, Settings, ShieldCheck, Sun, UploadCloud, UserRound, X, CircleHelp, Building2, ZoomIn } from 'lucide-react'
@@ -50,7 +51,5 @@ function Result({items,onSave,user}:{items:Analysis[];onSave:(x:Analysis)=>void;
 function HistoryPage({items}:{items:Analysis[]}) {return <><Heading title="Historial de actividad" subtitle="El recorrido de tus análisis guardados en este navegador."/><Panel>{items.length?<div className="clinic-timeline">{items.map(x=><article key={x.id}><span className="timeline-dot"><History size={18}/></span><div><small>{new Date(x.date).toLocaleString('es-CO')}</small><h3>{x.reviewed?'Análisis con valoración guardada':'Análisis de demostración completado'}</h3><p>{x.id} · {x.modality} · {x.fileName}</p><Link to={`/app/resultados/${x.id}`}>Abrir análisis →</Link></div></article>)}</div>:<div className="clinic-empty"><History size={30}/><h3>Tu historial empieza aquí</h3><p>Los análisis aparecerán cuando completes una simulación.</p><Link to="/app/analizar">Crear análisis →</Link></div>}</Panel><Notice/></>}
 export function Help(){return <h1>Centro de ayuda</h1>}
 
-
-function Profile(_props:Record<string,unknown>){return <h1>Perfil en preparación</h1>}
 
 function SettingsPage(_props:Record<string,unknown>){return <h1>Configuración en preparación</h1>}
