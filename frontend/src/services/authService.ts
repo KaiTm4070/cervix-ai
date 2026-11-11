@@ -2,6 +2,7 @@ export interface User {
     nombre: string; apellidos: string; email: string
     profesion: string; institucion: string
     objetivo: string | null
+    nombreVisible?: string; especialidad?: string; objetivoTexto?: string; avatar?: string
 }
 export type RegisterData = Omit<User, 'objetivo'> & { password: string; terminos: boolean }
 
