@@ -121,7 +121,7 @@ export default function Landing() {
               <p className="note"><a href="/demo" style={{color:"#bdb4ff"}}>Explorar demostración →</a></p><p className="note"><Icon n="shield" />Diseñado como apoyo a profesionales de salud. No sustituye el diagnóstico.</p>
             </div>
             <figure className="hero__media">
-              <img src="/landing/hero-celula.png" alt="Ilustración de una célula con patrones de análisis de imagen" />
+              <img src="/landing/hero-delula.png" alt="Ilustración de una célula con patrones de análisis de imagen" />
               <span className="chip"><Icon n="scan" />Visión artificial · Perspectiva humana</span>
               <figcaption className="hero__card">
                 <Icon n="layers" />
@@ -182,7 +182,7 @@ export default function Landing() {
             <div className="card card--dark sample">
               <div className="sample__top"><strong>Una lectura que puedes revisar</strong><span className="tag tag--teal">Ejemplo</span></div>
               <div className="sample__img">
-                <img src="/landing/citologia-ejemplo.png" alt="Citología de ejemplo con región de interés resaltada" />
+                <img src="/landing/Micrografía-citológica.png" alt="Citología de ejemplo con región de interés resaltada" />
                 <span className="sample__label">Citología · Ilustración</span>
                 <span className="sample__roi" aria-hidden="true" />
               </div>
