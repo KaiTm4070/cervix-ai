@@ -1,3 +1,4 @@
+
 import { useState, type ReactElement, type MouseEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthModal from '../components/auth/AuthModal'

@@ -7,7 +7,7 @@ from pathlib import Path
 from PIL import Image
 
 MODEL_DIR = Path(os.getenv("MODEL_DIR", "models/vigente"))
-CODIGOS = ["NEGATIVO", "LSIL", "HSIL"]
+CODIGOS = ["NORMAL", "ANORMAL"]
 _cache = None
 
 
@@ -15,8 +15,8 @@ def _cargar():
     global _cache  # el modelo se carga una sola vez, no en cada analisis
     if _cache is None:
         if (MODEL_DIR / "package.json").exists():
-            from src.models.Factory import load_package
-            from src.preprocessing.Transform import eval_transform
+            from src.models.factory import load_package
+            from src.preprocessing.transforms import eval_transform
             model, meta = load_package(MODEL_DIR)
             _cache = ("real", model, meta, eval_transform(meta["img_size"]))
         else:

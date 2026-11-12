@@ -51,7 +51,11 @@ export default function RegisterModal({ onClose, onSwitch, onSuccess }: Register
         setErrors(er);
         if (Object.keys(er).length) return;
         setLoading(true);
-        try { onSuccess(await register(f)); } finally { setLoading(false); }
+        try {
+            onSuccess(await register(f));
+        } catch (err) {
+            setErrors({ email: err instanceof Error ? err.message : 'No se pudo crear la cuenta.' });
+        } finally { setLoading(false); }
     };
 
     return (

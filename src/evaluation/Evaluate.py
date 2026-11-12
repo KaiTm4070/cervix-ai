@@ -13,8 +13,8 @@ import yaml
 from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support
 from torch.utils.data import DataLoader
 
-from src.models.Factory import load_package
-from src.preprocessing.Transform import eval_transform
+from src.models.factory import load_package
+from src.preprocessing.transforms import eval_transform
 from src.training.dataset import SplitDataset
 
 
@@ -53,13 +53,26 @@ def main(cfg_path: str) -> None:
     else:
         sens, esp, modo = float(rec.mean()), float(esp_clase.mean()), "promedio macro"
 
+    nombres = [Path(f).name.split("__")[0] if "__" in Path(f).name else "todos" for f, _ in sp["splits"]["test"]]
+    por_dataset = {}
+    for ds in sorted(set(nombres)):
+        idx = [i for i, n in enumerate(nombres) if n == ds]
+        y_d, p_d = np.array(ys)[idx], np.array(ps)[idx]
+        d = {"n": len(idx), "exactitud": round(float((y_d == p_d).mean()), 4)}
+        if normales:
+            yb_d = np.array([0 if y in normales else 1 for y in y_d])
+            pb_d = np.array([0 if q in normales else 1 for q in p_d])
+            d["sensibilidad"] = round(float((pb_d[yb_d == 1] == 1).mean()), 4) if (yb_d == 1).any() else None
+            d["especificidad"] = round(float((pb_d[yb_d == 0] == 0).mean()), 4) if (yb_d == 0).any() else None
+        por_dataset[ds] = d
+
     metricas = {  # los 4 primeros campos coinciden con POST /metricas (agrega id_version)
         "exactitud": round(float(accuracy_score(ys, ps)), 4), "sensibilidad": round(float(sens), 4),
         "especificidad": round(float(esp), 4), "f1": round(float(f1.mean()), 4),
-        "modo_sens_esp": modo, "n_test": int(total),
+        "modo_sens_esp": modo, "n_test": int(total), "por_dataset": por_dataset,
         "por_clase": {c: {"precision": round(float(prec[i]), 4), "sensibilidad": round(float(rec[i]), 4),
-                        "especificidad": round(float(esp_clase[i]), 4), "f1": round(float(f1[i]), 4)}
-                    for i, c in enumerate(classes)},
+                          "especificidad": round(float(esp_clase[i]), 4), "f1": round(float(f1[i]), 4)}
+                      for i, c in enumerate(classes)},
         "matriz_confusion": cm.tolist(),
     }
     (pkg / "metricas.json").write_text(json.dumps(metricas, indent=2, ensure_ascii=False), encoding="utf-8")

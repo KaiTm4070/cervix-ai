@@ -95,7 +95,7 @@ La API estará disponible en:
 
 - http://localhost:8000
 - Documentación interactiva: http://localhost:8000/docs
-- Comprobación de estado: http://localhost:8000/api/salud
+- Comprobación de estado: http://localhost:8000/salud
 
 ### 4. Instalar y ejecutar el frontend
 
@@ -113,6 +113,20 @@ Vite mostrará la dirección local, normalmente:
 ```text
 http://localhost:5173
 ```
+
+### Autenticación y base de datos
+
+La API usa SQLite en desarrollo (`cervix_ai.db`) y crea sus tablas al arrancar.
+Para usar PostgreSQL, define `DATABASE_URL`, por ejemplo:
+
+```powershell
+$env:DATABASE_URL="postgresql+psycopg://usuario:contraseña@localhost/cervix_ai"
+```
+
+El frontend usa `POST /api/auth/register`, `POST /api/auth/login`,
+`GET /api/auth/me`, `PATCH /api/auth/objective` y `POST /api/auth/logout`.
+La sesión se mantiene en una cookie `HttpOnly`; la contraseña se almacena
+mediante un hash scrypt y nunca se devuelve a la interfaz.
 
 El frontend redirige automáticamente las rutas `/api` hacia
 `http://localhost:8000`, según la configuración de
