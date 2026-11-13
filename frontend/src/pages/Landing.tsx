@@ -1,3 +1,4 @@
+
 import { useState, type ReactElement, type MouseEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthModal from '../components/auth/AuthModal'
@@ -61,7 +62,7 @@ const CHECKS = [
 
 const FAQ = [
   ['¿Cérvix-AI realiza un diagnóstico?', 'No. Sugiere patrones y clasificaciones para que un profesional los revise junto con la evidencia clínica.'],
-  ['¿Qué formatos de imagen puedo subir?', 'JPG, PNG y DICOM, con un máximo de 10 MB por imagen. Selecciona la modalidad correspondiente.'],
+  ['¿Qué formatos de imagen puedo subir?', 'JPG y PNG, con un máximo de 10 MB por imagen. Selecciona la modalidad correspondiente.'],
   ['¿Qué significa la confianza del modelo?', 'Expresa la seguridad de la clasificación del modelo, no certeza clínica ni probabilidad individual de enfermedad.'],
   ['¿Puedo explorar la plataforma con un caso de ejemplo?', 'Sí. Este entorno muestra un caso ilustrativo sin información identificable de pacientes.'],
 ]
@@ -74,7 +75,7 @@ const FOOT: [string, [string, string][]][] = [
 
 const Logo = () => (
   <a className="logo" href="/" aria-label="CervixAI">
-    <img src="../public/landing/logo.png" alt="CervixAI" height={40} />
+    <img src="/landing/logo-proporcionado.png" alt="CervixAI" height={40} />
   </a>
 )
 
@@ -117,10 +118,10 @@ export default function Landing() {
                 <a className="btn btn--primary btn--lg" href="/registro" onClick={open('register')}><Icon n="arrow" />Registrarse</a>
                 <a className="btn btn--dark btn--lg" href="/login" onClick={open('login')}>Iniciar sesión</a>
               </div>
-              <p className="note"><Icon n="shield" />Diseñado como apoyo a profesionales de salud. No sustituye el diagnóstico.</p>
+              <p className="note"><a href="/demo" style={{color:"#bdb4ff"}}>Explorar demostración →</a></p><p className="note"><Icon n="shield" />Diseñado como apoyo a profesionales de salud. No sustituye el diagnóstico.</p>
             </div>
             <figure className="hero__media">
-              <img src="/landing/hero-celula.png" alt="Ilustración de una célula con patrones de análisis de imagen" />
+              <img src="/landing/hero-delula.png" alt="Ilustración de una célula con patrones de análisis de imagen" />
               <span className="chip"><Icon n="scan" />Visión artificial · Perspectiva humana</span>
               <figcaption className="hero__card">
                 <Icon n="layers" />
@@ -181,13 +182,13 @@ export default function Landing() {
             <div className="card card--dark sample">
               <div className="sample__top"><strong>Una lectura que puedes revisar</strong><span className="tag tag--teal">Ejemplo</span></div>
               <div className="sample__img">
-                <img src="/landing/citologia-ejemplo.png" alt="Citología de ejemplo con región de interés resaltada" />
+                <img src="/landing/Micrografía-citológica.png" alt="Citología de ejemplo con región de interés resaltada" />
                 <span className="sample__label">Citología · Ilustración</span>
                 <span className="sample__roi" aria-hidden="true" />
               </div>
               <div className="sample__res">
-                <div><small>Clase sugerida por IA</small><strong className="sample__class">LSIL</strong></div>
-                <span className="tag tag--amber">Bajo riesgo</span>
+                <div><small>Clase sugerida por IA</small><strong className="sample__class">ANORMAL</strong></div>
+                <span className="tag tag--amber">Ejemplo simulado</span>
                 <div className="sample__conf"><small>Confianza del modelo</small><strong className="teal">87%</strong></div>
               </div>
               <p className="sample__note">La confianza no equivale a certeza clínica ni a probabilidad de enfermedad.</p>
@@ -195,7 +196,7 @@ export default function Landing() {
             <div className="example__text">
               <p className="eyebrow eyebrow--teal">Inteligencia que acompaña, no sustituye</p>
               <h2>La IA aporta señales. Tú aportas el criterio.</h2>
-              <p className="lead">Una red neuronal convolucional (CNN) identifica patrones visuales y propone una clasificación para revisión. Cada salida necesita contexto clínico.</p>
+              <p className="lead">El modelo ViT del repositorio contempla las clases NORMAL y ANORMAL. Esta interfaz muestra un ejemplo simulado; cada salida requiere revisión profesional.</p>
               <ul className="checks">
                 {CHECKS.map((c) => (<li key={c}><Icon n="check" />{c}</li>))}
               </ul>
@@ -218,9 +219,9 @@ export default function Landing() {
           </div>
           <p className="wrap legend">
             <span>Clasificación orientativa</span>
-            <span className="tag tag--red">Alto riesgo</span>
-            <span className="tag tag--amber">Bajo riesgo</span>
-            <span className="tag tag--green">Negativo</span>
+            <span className="tag tag--red">ANORMAL</span>
+            <span className="tag tag--amber">Ejemplo simulado</span>
+            <span className="tag tag--green">NORMAL</span>
           </p>
         </section>
 

@@ -7,7 +7,7 @@ from pathlib import Path
 from PIL import Image
 
 MODEL_DIR = Path(os.getenv("MODEL_DIR", "models/vigente"))
-CODIGOS = ["NEGATIVO", "LSIL", "HSIL"]
+CODIGOS = ["NORMAL", "ANORMAL"]
 _cache = None
 
 

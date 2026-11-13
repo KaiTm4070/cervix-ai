@@ -2,9 +2,9 @@
 dataset_dir: data/processed
 dataset_version: v1
 splits_file: data/splits/splits.json
-# Agrupa recortes de una misma imagen madre (ej. 001_01.bmp y 001_02.bmp -> grupo 001).
-# Si el nombre no coincide, cada imagen es su propio grupo.
-group_regex: "^(\\d+)_"
+# Agrupa por imagen/caso madre. prepare_dataset.py nombra los archivos <dataset>__<grupo>__<original>,
+# asi que el grupo es lo que hay antes del segundo doble guion bajo.
+group_regex: "^(.+?__.+?)__"
 split: {train: 0.70, val: 0.15, test: 0.15}
 seed: 42
 

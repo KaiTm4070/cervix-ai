@@ -82,7 +82,7 @@ export default function LoginModal({ onClose, onSwitch, onSuccess }: LoginModalP
             <button
                 type="button"
                 className="link"
-                onClick={() => alert('Recuperación de contraseña: pendiente de implementar')}
+                onClick={() => setServerError('La recuperación de contraseña estará disponible cuando se conecte la autenticación del backend. Puedes crear un perfil de demostración desde Registro.')}
             >
                 ¿Olvidaste tu contraseña?
             </button>
