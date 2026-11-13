@@ -8,7 +8,7 @@ from sqlalchemy import select
 from src.common.config import CORS_ORIGINS
 from src.common.database import Base, SessionLocal, engine
 from src.common.db_models import CategoriaAnalisis, VersionModelo
-from src.api.routers import auth
+from src.api.routers import analysis, auth
 
 
 def seed() -> None:
@@ -41,7 +41,7 @@ app.add_middleware(
     allow_headers=["*"], allow_credentials=True,
 )
 
-for r in (auth,):
+for r in (auth, analysis):
     app.include_router(r.router)
 
 

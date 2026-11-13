@@ -133,6 +133,15 @@ El frontend redirige automáticamente las rutas `/api` hacia
 [`vite.config.ts`](frontend/vite.config.ts). Por eso el backend debe estar
 ejecutándose en la primera terminal.
 
+El análisis real se solicita con `POST /api/analysis` y requiere la cookie de
+sesión. El formulario multipart envía `image` (JPG o PNG, hasta 10 MB) y
+`modality` (`Citología` o `Colposcopia`). La API ejecuta el modelo de
+`models/vigente` y registra en `resultado_prueba` el usuario, la versión del
+modelo, la categoría predicha, la confianza y el tiempo de respuesta. La
+modalidad y el nombre del archivo se registran en `muestra_analisis`. La
+imagen y su vista previa no se guardan en la base de datos en esta versión; el
+frontend conserva la vista previa en el almacenamiento local del navegador.
+
 ## Comandos útiles
 
 Desde `frontend/`:

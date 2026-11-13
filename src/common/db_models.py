@@ -64,6 +64,19 @@ class ResultadoPrueba(Base):
     tiempo_respuesta_ms: Mapped[int] = mapped_column(Integer, nullable=False)
 
 
+class MuestraAnalisis(Base):
+    __tablename__ = "muestra_analisis"
+
+    id_muestra: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id_resultado: Mapped[int] = mapped_column(
+        ForeignKey("resultado_prueba.id_resultado", ondelete="CASCADE"),
+        unique=True,
+        nullable=False,
+    )
+    nombre_archivo: Mapped[str] = mapped_column(String(255), nullable=False)
+    modalidad: Mapped[str] = mapped_column(String(20), nullable=False)
+
+
 class MetricaEvaluacion(Base):
     __tablename__ = "metrica_evaluacion"
 
