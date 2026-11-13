@@ -85,11 +85,24 @@ pip install -r requirements-ml.txt
 
 ### 3. Iniciar la API
 
-Desde la raíz del repositorio y con `.venv` activo:
+Desde la raíz del repositorio y con el entorno virtual activo, configura
+PostgreSQL antes de iniciar la API. Reemplaza los valores de ejemplo por el
+usuario, contraseña y base de datos reales:
+
+```powershell
+$env:DATABASE_URL="postgresql+psycopg://usuario:contraseña@localhost:5432/cervix_ai"
+```
+
+La base de datos `cervix_ai` debe existir y PostgreSQL debe estar iniciado.
+Después, ejecuta:
 
 ```powershell
 python -m uvicorn src.api.main:app --reload
 ```
+
+Si la contraseña contiene caracteres especiales, debes codificarlos para una
+URL. Por ejemplo, `@` se escribe como `%40`. Si no defines `DATABASE_URL`, la
+API utiliza SQLite en `cervix_ai.db`.
 
 La API estará disponible en:
 
