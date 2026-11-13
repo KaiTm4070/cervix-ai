@@ -6,8 +6,18 @@ export interface Analysis {
 const KEY = 'cervix.demo.analyses.v1'
 export const sample: Analysis = { id: 'DEMO-001', date: '2026-11-09T10:30:00', modality: 'Citología', fileName: 'Citologia-ilustrativa.png', image: '/landing/citologia-ejemplo.png', classification: 'ANORMAL', confidence: 87, reviewed: false, notes: '' }
 export const analysisService = {
-  list(): Analysis[] { try { return JSON.parse(localStorage.getItem(KEY) || '[]') } catch { return [] } },
-  save(item: Analysis) { const items = this.list(); const next = [item, ...items.filter(x => x.id !== item.id)]; localStorage.setItem(KEY, JSON.stringify(next)); return next },
+  list(): Analysis[] {
+    try {
+      const items = JSON.parse(localStorage.getItem(KEY) || '[]') as Omit<Analysis, 'image'>[]
+      return items.map(item => ({ ...item, image: sample.image }))
+    } catch { return [] }
+  },
+  save(item: Analysis) {
+    const items = this.list()
+    const next = [item, ...items.filter(x => x.id !== item.id)]
+    localStorage.setItem(KEY, JSON.stringify(next, (key, value) => key === 'image' ? undefined : value))
+    return next
+  },
   clear() { localStorage.removeItem(KEY) },
 }
 
