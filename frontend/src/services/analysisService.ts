@@ -20,7 +20,6 @@ export const analysisService = {
   },
   clear() { localStorage.removeItem(KEY) },
 }
-
 export async function analyzeImage(file: File, preview: string, modality: Modality): Promise<Analysis> {
   const body = new FormData()
   body.append('image', file)
@@ -42,14 +41,4 @@ export async function analyzeImage(file: File, preview: string, modality: Modali
     id: result.id, date: result.date, modality, fileName: file.name, image: preview,
     classification: result.classification, confidence: result.confidence, reviewed: false, notes: '',
   }
-}
-
-export async function simulateAnalysis(fileName: string, image: string, modality: Modality): Promise<Analysis> {
-  if (!image.startsWith('data:')) {
-    return { ...sample, id: `DEMO-${Date.now().toString(36).toUpperCase()}`, date: new Date().toISOString(), fileName, image, modality }
-  }
-  const [header, encoded] = image.split(',', 2)
-  const mime = header.match(/^data:(.*?);base64$/)?.[1] || 'image/png'
-  const bytes = Uint8Array.from(atob(encoded), character => character.charCodeAt(0))
-  return analyzeImage(new File([bytes], fileName, { type: mime }), image, modality)
 }

@@ -11,26 +11,26 @@ const guides = [
       ['Selecciona la modalidad', 'Elige Citología para imágenes microscópicas celulares o Colposcopia para imágenes de la superficie cervical.'],
       ['Selecciona tu archivo', 'Pulsa Seleccionar archivo o arrastra una imagen al recuadro. Usa JPG o PNG de hasta 10 MB, sin datos identificables y con autorización de uso. Para practicar puedes pulsar Usar imagen de ejemplo.'],
       ['Comprueba la vista previa', 'Verifica que la imagen y la modalidad sean correctas. Usa Reemplazar imagen para cambiar el archivo o Eliminar para quitarlo.'],
-      ['Inicia la demostración', 'Pulsa Iniciar análisis de demostración. Verás el progreso simulado y después el resultado. Cancelar simulación te devuelve a la carga.'],
-    ], note: 'La demostración no ejecuta IA. La clase y la confianza son valores fijos y no evalúan tu imagen. DICOM todavía no está disponible.',
+      ['Inicia el análisis', 'Pulsa Iniciar análisis. El backend procesará la imagen y después podrás consultar el resultado. Cancelar análisis te devuelve a la carga.'],
+    ], note: 'El modelo procesa imágenes JPG y PNG. DICOM todavía no está disponible.',
   },
   {
     id: 'resultados', title: 'Encontrar e interpretar resultados', short: 'Búsqueda, clasificación y confianza', icon: Search, destination: '/app/resultados', action: 'Ir a Resultados',
     steps: [
-      ['Abre Resultados', 'Selecciona Resultados en el menú lateral. Si aún no hay registros, completa un análisis de demostración o abre el caso de ejemplo desde Inicio.'],
+      ['Abre Resultados', 'Selecciona Resultados en el menú lateral. Si aún no hay registros, completa un análisis o abre el caso de ejemplo desde Inicio.'],
       ['Encuentra el caso', 'Busca por identificador o nombre del archivo. Puedes filtrar por modalidad y por estado: Por revisar o Revisados.'],
       ['Abre el detalle', 'Pulsa el identificador del caso. Comprueba la imagen, la modalidad y los detalles del análisis. Usa Ampliar imagen si necesitas verla con mayor tamaño.'],
-      ['Lee la clasificación y la confianza', 'El modelo del repositorio contempla NORMAL y ANORMAL. En esta versión se muestran ANORMAL y 87% como ejemplo fijo; no representan una predicción real ni probabilidad de enfermedad.'],
+      ['Lee la clasificación y la confianza', 'El modelo contempla las clases NORMAL y ANORMAL. La confianza acompaña la predicción y no equivale a certeza clínica ni a probabilidad de enfermedad.'],
       ['Continúa la revisión', 'Pulsa Iniciar revisión profesional para registrar tus observaciones. Si el caso ya fue revisado, verás Editar valoración.'],
-    ], note: 'La clasificación de IA requiere interpretación profesional. Esta versión de demostración no permite extraer conclusiones clínicas.',
+    ], note: 'La clasificación de IA requiere interpretación profesional y no constituye un diagnóstico.',
   },
   {
     id: 'revision', title: 'Registrar una revisión profesional', short: 'Observaciones y estado de revisión', icon: ClipboardCheck, destination: '/app/resultados', action: 'Elegir un caso para revisar',
     steps: [
       ['Selecciona un caso', 'En Resultados, abre el identificador del análisis que quieres revisar.'],
-      ['Entra a la revisión', 'Pulsa Iniciar revisión profesional o Editar valoración. Verás el informe de demostración y el formulario Tu valoración.'],
+      ['Entra a la revisión', 'Pulsa Iniciar revisión profesional o Editar valoración. Verás el informe del análisis y el formulario Tu valoración.'],
       ['Escribe tus observaciones', 'En Observaciones, documenta lo que deseas registrar y las limitaciones de la muestra. No incluyas nombres, documentos ni otros datos identificables.'],
-      ['Confirma la revisión', 'Marca He revisado la imagen y comprendo que el resultado es una simulación. Debes escribir observaciones y marcar la casilla para habilitar el guardado.'],
+      ['Confirma la revisión', 'Marca He revisado la imagen y comprendo las limitaciones del resultado. Debes escribir observaciones y marcar la casilla para habilitar el guardado.'],
       ['Guarda la valoración', 'Pulsa Guardar valoración y comprueba el mensaje de confirmación. El caso pasa a Revisado. Puedes regresar después para editar las observaciones.'],
     ], note: 'Guardar una revisión en este prototipo no equivale a validar un diagnóstico. La valoración se conserva únicamente en este navegador.',
   },
@@ -41,7 +41,7 @@ const guides = [
       ['Comprueba su revisión', 'Si quieres incluir tus observaciones, entra a la revisión y pulsa Guardar valoración antes de exportar. Sin revisión guardada, el informe se identifica como borrador.'],
       ['Abre el informe imprimible', 'Desde el detalle pulsa Informe imprimible, o desde la revisión pulsa Imprimir / Guardar PDF. Se abrirá una ventana con el documento. Si no aparece, permite las ventanas emergentes para este sitio e inténtalo de nuevo.'],
       ['Abre la impresión', 'Dentro del documento, pulsa Imprimir / Guardar como PDF. En el diálogo del navegador selecciona Guardar como PDF como destino.'],
-      ['Guarda el archivo', 'Revisa las páginas, pulsa Guardar y selecciona una carpeta. El documento incluye el estado de revisión y la advertencia de demostración.'],
+      ['Guarda el archivo', 'Revisa las páginas, pulsa Guardar y selecciona una carpeta. El documento incluye el estado de revisión y las advertencias correspondientes.'],
     ], note: 'La aplicación ofrece una vista imprimible; la creación del PDF se realiza mediante el navegador. El documento no constituye evidencia clínica.',
   },
   {
@@ -60,8 +60,8 @@ const faqs = [
   ['¿Por qué no se habilita Guardar valoración?', 'Escribe al menos una observación y marca la casilla de confirmación de revisión.'],
   ['¿Por qué no encuentro mis análisis?', 'Los registros están en el navegador donde los creaste. No se sincronizan entre dispositivos. Borrar los datos del sitio o eliminar los análisis desde Configuración los quita del historial.'],
   ['¿Qué hago si no se abre el informe?', 'Permite ventanas emergentes para este sitio y vuelve a pulsar Informe imprimible. En la nueva ventana utiliza Imprimir / Guardar como PDF.'],
-  ['¿Qué significa la confianza del modelo?', 'No equivale a certeza clínica ni a probabilidad de enfermedad. El 87% de la demostración es un valor ilustrativo fijo.'],
-  ['¿Puedo usar DICOM o recuperar mi contraseña?', 'Estas funciones están pendientes de integración con el backend. Por ahora utiliza JPG o PNG y un perfil de demostración.'],
+  ['¿Qué significa la confianza del modelo?', 'La confianza expresa la seguridad relativa del modelo para su predicción. No equivale a certeza clínica ni a probabilidad de enfermedad.'],
+  ['¿Puedo usar DICOM o recuperar mi contraseña?', 'DICOM todavía no está disponible. Por ahora utiliza JPG o PNG.'],
 ]
 const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 
