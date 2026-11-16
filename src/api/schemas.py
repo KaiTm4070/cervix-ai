@@ -32,6 +32,20 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class PasswordResetRequest(BaseModel):
+    email: str = Field(min_length=3, max_length=160)
+
+    @field_validator("email")
+    @classmethod
+    def normalize_email(cls, value: str) -> str:
+        return value.strip().lower()
+
+
+class PasswordResetConfirm(BaseModel):
+    token: str = Field(min_length=20, max_length=200)
+    password: str = Field(min_length=8, max_length=128)
+
+
 class ObjectiveRequest(BaseModel):
     objetivo: str = Field(min_length=1, max_length=80)
 

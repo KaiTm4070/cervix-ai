@@ -11,8 +11,9 @@ export type RegisterData = Omit<User, 'objetivo' | 'rol'> & { password: string; 
 const SESSION_KEY = 'cervix.session'
 
 interface AuthResponse { user: User }
+interface MessageResponse { message: string }
 
-async function request(path: string, init?: RequestInit): Promise<AuthResponse> {
+async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
     let response: Response
     try {
         response = await fetch(`/api/auth${path}`, {
@@ -27,7 +28,11 @@ async function request(path: string, init?: RequestInit): Promise<AuthResponse> 
         const body = await response.json().catch(() => null) as { detail?: string } | null
         throw new Error(body?.detail || 'No se pudo completar la operación.')
     }
-    return response.json() as Promise<AuthResponse>
+    return response.json() as Promise<T>
+}
+
+async function request(path: string, init?: RequestInit): Promise<AuthResponse> {
+    return requestJson<AuthResponse>(path, init)
 }
 
 function saveSession(user: User): User {
@@ -49,6 +54,22 @@ export async function login({ email, password }: { email: string; password: stri
         body: JSON.stringify({ email, password }),
     })
     return saveSession(user)
+}
+
+export async function requestPasswordReset(email: string): Promise<string> {
+    const { message } = await requestJson<MessageResponse>('/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+    })
+    return message
+}
+
+export async function resetPassword(token: string, password: string): Promise<string> {
+    const { message } = await requestJson<MessageResponse>('/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ token, password }),
+    })
+    return message
 }
 
 export async function saveObjective(objetivo: string): Promise<User> {

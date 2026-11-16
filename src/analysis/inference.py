@@ -1,12 +1,13 @@
 """Interfaz de prediccion usada por la API. Si existe un paquete real en MODEL_DIR lo usa;
 si no, responde con un SIMULADOR para poder desarrollar el resto del sistema."""
-import os
 import random
 from pathlib import Path
 
 from PIL import Image
 
-MODEL_DIR = Path(os.getenv("MODEL_DIR", "models/vigente"))
+from src.common.config import MODEL_DIR as MODEL_DIR_VALUE
+
+MODEL_DIR = Path(MODEL_DIR_VALUE)
 CODIGOS = ["NORMAL", "ANORMAL"]
 _cache = None
 
@@ -29,11 +30,25 @@ def es_simulado() -> bool:
 
 
 def predict(img: Image.Image) -> tuple[str, float]:
+    category, confidence, _ = predict_with_interpretability(img)
+    return category, confidence
+
+
+def predict_with_interpretability(img: Image.Image) -> tuple[str, float, str | None]:
     modo, model, meta, tf = _cargar()
     if modo == "simulado":
-        return random.choice(CODIGOS), round(random.uniform(0.5, 0.99), 4)
+        return random.choice(CODIGOS), round(random.uniform(0.5, 0.99), 4), None
     import torch
+
     with torch.no_grad():
         probs = torch.softmax(model(tf(img.convert("RGB")).unsqueeze(0)), dim=1)[0]
     i = int(probs.argmax())
-    return meta["classes"][i].upper(), round(float(probs[i]), 4)
+    from utils.interpretability import obtener_zonas_de_interes
+
+    explanation = obtener_zonas_de_interes(
+        model,
+        img,
+        tf,
+        target_size=(meta["img_size"], meta["img_size"]),
+    )
+    return meta["classes"][i].upper(), round(float(probs[i]), 4), explanation

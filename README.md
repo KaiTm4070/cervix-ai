@@ -73,6 +73,18 @@ Después, vuelve a ejecutar:
 .\.venv\Scripts\Activate.ps1
 ```
 
+### Configurar variables de entorno
+
+Copia `.env.example` como `.env` y reemplaza los valores de ejemplo:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+El archivo `.env` es ignorado por Git y contiene las credenciales locales de
+PostgreSQL y SMTP. No lo subas al repositorio. La API lo carga automáticamente
+al iniciar.
+
 ### 2. Instalar dependencias del backend
 
 Con el entorno virtual activado:
@@ -85,15 +97,9 @@ pip install -r requirements-ml.txt
 
 ### 3. Iniciar la API
 
-Desde la raíz del repositorio y con el entorno virtual activo, configura
-PostgreSQL antes de iniciar la API. Reemplaza los valores de ejemplo por el
-usuario, contraseña y base de datos reales:
-
-```powershell
-$env:DATABASE_URL="postgresql+psycopg://usuario:contraseña@localhost:5432/cervix_ai"
-```
-
-La base de datos `cervix_ai` debe existir y PostgreSQL debe estar iniciado.
+Desde la raíz del repositorio y con el entorno virtual activo, verifica que
+`.env` tenga los valores reales. La base de datos `cervix_ai` debe existir y
+PostgreSQL debe estar iniciado.
 Después, ejecuta:
 
 ```powershell
@@ -103,6 +109,10 @@ python -m uvicorn src.api.main:app --reload
 Si la contraseña contiene caracteres especiales, debes codificarlos para una
 URL. Por ejemplo, `@` se escribe como `%40`. Si no defines `DATABASE_URL`, la
 API utiliza SQLite en `cervix_ai.db`.
+
+La recuperación de contraseña requiere configurar las variables SMTP anteriores.
+El enlace enviado dura 30 minutos por defecto; puedes cambiarlo con
+`PASSWORD_RESET_MINUTES`. No uses credenciales SMTP reales en el código fuente.
 
 La API estará disponible en:
 
@@ -154,6 +164,10 @@ modelo, la categoría predicha, la confianza y el tiempo de respuesta. La
 modalidad y el nombre del archivo se registran en `muestra_analisis`. La
 imagen y su vista previa no se guardan en la base de datos en esta versión; el
 frontend conserva la vista previa en el almacenamiento local del navegador.
+Cuando se usa el modelo real, la respuesta también incluye un mapa de saliencia
+con las zonas de interés estimadas por el modelo para apoyar la revisión
+profesional. El mapa se genera en `utils/interpretability.py` y se entrega como
+una imagen embebida en la respuesta; no constituye una segmentación clínica.
 
 ## Comandos útiles
 

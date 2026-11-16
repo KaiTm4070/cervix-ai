@@ -2,6 +2,7 @@ export type Modality = 'Citología' | 'Colposcopia'
 export interface Analysis {
   id: string; date: string; modality: Modality; fileName: string; image: string;
   classification: 'NORMAL' | 'ANORMAL'; confidence: number; reviewed: boolean; notes: string;
+  interpretabilityImage?: string;
 }
 const KEY = 'cervix.demo.analyses.v1'
 export const sample: Analysis = { id: 'DEMO-001', date: '2026-11-09T10:30:00', modality: 'Citología', fileName: 'Citologia-ilustrativa.png', image: '/landing/citologia-ejemplo.png', classification: 'ANORMAL', confidence: 87, reviewed: false, notes: '' }
@@ -35,10 +36,12 @@ export async function analyzeImage(file: File, preview: string, modality: Modali
     throw new Error(error?.detail || 'No se pudo analizar la imagen.')
   }
   const result = await response.json() as {
-    id: string; date: string; classification: Analysis['classification']; confidence: number
+    id: string; date: string; classification: Analysis['classification']; confidence: number;
+    interpretability_image?: string
   }
   return {
     id: result.id, date: result.date, modality, fileName: file.name, image: preview,
     classification: result.classification, confidence: result.confidence, reviewed: false, notes: '',
+    interpretabilityImage: result.interpretability_image,
   }
 }

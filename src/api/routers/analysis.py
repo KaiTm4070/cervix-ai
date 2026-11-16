@@ -6,7 +6,7 @@ from PIL import Image, UnidentifiedImageError
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from src.analysis.inference import predict
+from src.analysis.inference import predict_with_interpretability
 from src.api.dependencies import get_current_user
 from src.api.schemas_analysis import AnalysisResponse
 from src.common.database import get_db
@@ -49,7 +49,7 @@ async def analyze(
         raise HTTPException(status_code=503, detail="No hay un modelo activo configurado")
 
     started_at = perf_counter()
-    category_code, confidence = predict(pil_image)
+    category_code, confidence, interpretability_image = predict_with_interpretability(pil_image)
     category = db.scalar(select(CategoriaAnalisis).where(CategoriaAnalisis.codigo == category_code))
     if category is None:
         raise HTTPException(status_code=500, detail=f"La categoría {category_code} no está configurada")
@@ -77,4 +77,5 @@ async def analyze(
         classification=category_code,
         confidence=round(confidence * 100, 2),
         model=version.nombre_modelo,
+        interpretability_image=interpretability_image,
     )

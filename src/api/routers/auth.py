@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import secrets
+import smtplib
 
 from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
 from sqlalchemy import select
@@ -7,10 +8,14 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from src.api.dependencies import get_current_user
-from src.api.schemas import AuthResponse, LoginRequest, ObjectiveRequest, RegisterRequest, UserResponse
-from src.common.config import COOKIE_SECURE, SESSION_DAYS
+from src.api.schemas import (
+    AuthResponse, LoginRequest, ObjectiveRequest, PasswordResetConfirm,
+    PasswordResetRequest, RegisterRequest, UserResponse,
+)
+from src.common.config import COOKIE_SECURE, PASSWORD_RESET_MINUTES, SESSION_DAYS
 from src.common.database import get_db
-from src.common.db_models import Sesion, Usuario
+from src.common.db_models import Sesion, TokenRecuperacion, Usuario
+from src.common.email import send_password_reset_email
 from src.common.security import hash_password, hash_session_token, verify_password
 
 router = APIRouter(prefix="/api/auth", tags=["autenticación"])
@@ -63,6 +68,45 @@ def login(payload: LoginRequest, response: Response, db: Session = Depends(get_d
     create_session(user, db, response)
     db.commit()
     return AuthResponse(user=to_response(user))
+
+
+@router.post("/forgot-password")
+def forgot_password(payload: PasswordResetRequest, db: Session = Depends(get_db)) -> dict[str, str]:
+    user = db.scalar(select(Usuario).where(Usuario.email == payload.email))
+    if user:
+        raw_token = secrets.token_urlsafe(32)
+        db.query(TokenRecuperacion).filter(
+            TokenRecuperacion.id_usuario == user.id_usuario,
+            TokenRecuperacion.usado.is_(False),
+        ).update({"usado": True})
+        db.add(TokenRecuperacion(
+            id_usuario=user.id_usuario,
+            token_hash=hash_session_token(raw_token),
+            expira_en=datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(minutes=PASSWORD_RESET_MINUTES),
+        ))
+        try:
+            send_password_reset_email(user.email, raw_token)
+        except (OSError, RuntimeError, smtplib.SMTPException) as exc:
+            db.rollback()
+            raise HTTPException(status_code=503, detail="No fue posible enviar el correo de recuperación") from exc
+        db.commit()
+    return {"message": "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña."}
+
+
+@router.post("/reset-password")
+def reset_password(payload: PasswordResetConfirm, db: Session = Depends(get_db)) -> dict[str, str]:
+    reset_token = db.scalar(select(TokenRecuperacion).where(
+        TokenRecuperacion.token_hash == hash_session_token(payload.token),
+        TokenRecuperacion.usado.is_(False),
+    ))
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    if not reset_token or reset_token.expira_en <= now:
+        raise HTTPException(status_code=400, detail="El enlace de recuperación no es válido o ya expiró")
+    reset_token.usuario.password_hash = hash_password(payload.password)
+    reset_token.usado = True
+    db.query(Sesion).filter(Sesion.id_usuario == reset_token.id_usuario).delete()
+    db.commit()
+    return {"message": "Contraseña actualizada correctamente"}
 
 
 @router.get("/me", response_model=AuthResponse)
