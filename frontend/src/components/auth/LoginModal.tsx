@@ -8,6 +8,7 @@ import { login, type User } from '../../services/authService'
 interface LoginModalProps {
     onClose: () => void
     onSwitch: () => void
+    onForgot: () => void
     onSuccess: (user: User) => void
 }
 
@@ -19,7 +20,7 @@ interface LoginForm {
 
 type FormErrors = Partial<Record<'email' | 'password', string>>
 
-export default function LoginModal({ onClose, onSwitch, onSuccess }: LoginModalProps) {
+export default function LoginModal({ onClose, onSwitch, onForgot, onSuccess }: LoginModalProps) {
     const [form, setForm] = useState<LoginForm>({ email: '', password: '', remember: false })
     const [errors, setErrors] = useState<FormErrors>({})
     const [serverError, setServerError] = useState('')
@@ -82,7 +83,7 @@ export default function LoginModal({ onClose, onSwitch, onSuccess }: LoginModalP
             <button
                 type="button"
                 className="link"
-                onClick={() => setServerError('La recuperación de contraseña estará disponible cuando se conecte la autenticación del backend. Puedes crear un perfil de demostración desde Registro.')}
+                onClick={onForgot}
             >
                 ¿Olvidaste tu contraseña?
             </button>

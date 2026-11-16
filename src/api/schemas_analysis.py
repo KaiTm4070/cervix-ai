@@ -9,3 +9,4 @@ class AnalysisResponse(BaseModel):
     classification: str
     confidence: float
     model: str
+    interpretability_image: str | None = None
