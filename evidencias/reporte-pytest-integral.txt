@@ -1,0 +1,49 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\danim\Downloads\cervix\cervix-ai\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\danim\Downloads\cervix\cervix-ai
+plugins: anyio-4.16.0
+collecting ... collected 29 items
+
+tests/test_api_analisis_valido.py::test_analisis_imagen_valida[PNG-image/png] PASSED [  3%]
+tests/test_api_analisis_valido.py::test_analisis_imagen_valida[JPEG-image/jpeg] PASSED [  6%]
+tests/test_api_auth.py::test_analisis_sin_autenticacion PASSED           [ 10%]
+tests/test_api_auth.py::test_analisis_con_sesion_invalida PASSED         [ 13%]
+tests/test_api_auth.py::test_analisis_con_sesion_expirada PASSED         [ 17%]
+tests/test_api_salud.py::test_api_salud PASSED                           [ 20%]
+tests/test_api_validacion.py::test_rechaza_formato_txt PASSED            [ 24%]
+tests/test_api_validacion.py::test_rechaza_archivo_mayor_10mib PASSED    [ 27%]
+tests/test_api_validacion.py::test_rechaza_imagen_danada PASSED          [ 31%]
+tests/test_api_validacion.py::test_rechaza_modalidad_invalida PASSED     [ 34%]
+tests/test_api_validacion.py::test_rechaza_solicitud_sin_imagen PASSED   [ 37%]
+tests/test_api_validacion.py::test_rechaza_solicitud_sin_modalidad PASSED [ 41%]
+tests/test_inference_pipeline.py::test_modelo_no_simulado PASSED         [ 44%]
+tests/test_inference_pipeline.py::test_clasificacion_valida PASSED       [ 48%]
+tests/test_inference_pipeline.py::test_confianza_valida PASSED           [ 51%]
+tests/test_inference_pipeline.py::test_interpretabilidad_generada PASSED [ 55%]
+tests/test_inference_vit.py::test_modo_evaluacion PASSED                 [ 58%]
+tests/test_inference_vit.py::test_salida_dos_clases PASSED               [ 62%]
+tests/test_inference_vit.py::test_salida_sin_valores_invalidos PASSED    [ 65%]
+tests/test_inference_vit.py::test_probabilidades_validas PASSED          [ 68%]
+tests/test_model_package.py::test_arquitectura_modelo PASSED             [ 72%]
+tests/test_model_package.py::test_archivo_modelo_existe PASSED           [ 75%]
+tests/test_model_package.py::test_clases_modelo PASSED                   [ 79%]
+tests/test_model_package.py::test_tamano_imagen PASSED                   [ 82%]
+tests/test_model_traceability.py::test_trazabilidad_modelo_activo FAILED [ 86%]
+tests/test_preprocessing.py::test_dimensiones_imagen PASSED              [ 89%]
+tests/test_preprocessing.py::test_normalizacion PASSED                   [ 93%]
+tests/test_preprocessing.py::test_consistencia_evaluacion PASSED         [ 96%]
+tests/test_preprocessing.py::test_transformacion_entrenamiento PASSED    [100%]
+
+================================== FAILURES ===================================
+_______________________ test_trazabilidad_modelo_activo _______________________
+tests\test_model_traceability.py:55: in test_trazabilidad_modelo_activo
+    assert modelo_activo.nombre_modelo == nombre_esperado, (
+E   AssertionError: Modelo registrado: modelo-simulado-v0. Modelo real: vit_small_patch16_224
+E   assert 'modelo-simulado-v0' == 'vit_small_patch16_224'
+E
+E     - vit_small_patch16_224
+E     + modelo-simulado-v0
+=========================== short test summary info ===========================
+FAILED tests/test_model_traceability.py::test_trazabilidad_modelo_activo - As...
+======================== 1 failed, 28 passed in 7.70s =========================

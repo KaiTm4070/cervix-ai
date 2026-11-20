@@ -1,0 +1,21 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\danim\Downloads\cervix\cervix-ai\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\danim\Downloads\cervix\cervix-ai
+plugins: anyio-4.16.0
+collecting ... collected 1 item
+
+tests/test_model_traceability.py::test_trazabilidad_modelo_activo FAILED [100%]
+
+================================== FAILURES ===================================
+_______________________ test_trazabilidad_modelo_activo _______________________
+tests\test_model_traceability.py:55: in test_trazabilidad_modelo_activo
+    assert modelo_activo.nombre_modelo == nombre_esperado, (
+E   AssertionError: Modelo registrado: modelo-simulado-v0. Modelo real: vit_small_patch16_224
+E   assert 'modelo-simulado-v0' == 'vit_small_patch16_224'
+E
+E     - vit_small_patch16_224
+E     + modelo-simulado-v0
+=========================== short test summary info ===========================
+FAILED tests/test_model_traceability.py::test_trazabilidad_modelo_activo - As...
+============================== 1 failed in 5.78s ==============================
