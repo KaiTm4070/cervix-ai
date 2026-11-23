@@ -5,7 +5,7 @@ export interface Analysis {
   interpretabilityImage?: string;
 }
 const KEY = 'cervix.demo.analyses.v1'
-export const sample: Analysis = { id: 'DEMO-001', date: '2026-11-09T10:30:00', modality: 'Citología', fileName: 'Citologia-ilustrativa.png', image: '/landing/citologia-ejemplo.png', classification: 'ANORMAL', confidence: 87, reviewed: false, notes: '' }
+export const sample: Analysis = { id: 'DEMO-001', date: '2026-11-09T10:30:00', modality: 'Citología', fileName: 'Micrografía-citológica.png', image: '/landing/Micrografía-citológica.png', classification: 'ANORMAL', confidence: 87, reviewed: false, notes: '' }
 export const analysisService = {
   list(): Analysis[] {
     try {
