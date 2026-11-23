@@ -196,7 +196,7 @@ export default function Landing() {
             <div className="example__text">
               <p className="eyebrow eyebrow--teal">Inteligencia que acompaña, no sustituye</p>
               <h2>La IA aporta señales. Tú aportas el criterio.</h2>
-              <p className="lead">El modelo ViT del repositorio contempla las clases NORMAL y ANORMAL. Esta interfaz muestra un ejemplo simulado; cada salida requiere revisión profesional.</p>
+              <p className="lead">El modelo contempla las clases NORMAL y ANORMAL. Esta interfaz muestra un ejemplo simulado; cada salida requiere revisión profesional.</p>
               <ul className="checks">
                 {CHECKS.map((c) => (<li key={c}><Icon n="check" />{c}</li>))}
               </ul>
