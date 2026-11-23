@@ -143,7 +143,7 @@ La API usa SQLite en desarrollo (`cervix_ai.db`) y crea sus tablas al arrancar.
 Para usar PostgreSQL, define `DATABASE_URL`, por ejemplo:
 
 ```powershell
-$env:DATABASE_URL="postgresql+psycopg://usuario:contraseña@localhost/cervix_ai"
+$env:DATABASE_URL="postgresql+psycopg://postgres:TU_CONTRASEÑA@localhost/cervix_ai""
 ```
 
 El frontend usa `POST /api/auth/register`, `POST /api/auth/login`,
